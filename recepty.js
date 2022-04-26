@@ -128,33 +128,3 @@ const recepty = [
     img: 'https://images.unsplash.com/photo-1516684669134-de6f7c473a2a?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=353c1f4206a931db97274e65329b85d8&auto=format&fit=crop&w=634&q=80'
   },
 ]
-
-let seznamReceptu = document.getElementById('recepty');
-
-zobrazRecepty();
-
-function zobrazRecepty() {
-  for (let i = 0; i < recepty.length; i++) {
-    let info = document.createElement('h3');
-    info.innerHTML = recepty[i].nadpis;
-
-    let receptInfo = document.createElement('div');
-    receptInfo.classList.add('recept-info');
-    receptInfo.appendChild(info);
-
-    let obrazek = document.createElement('img');
-    obrazek.src = recepty[i].img;
-    obrazek.alt = 'Obrazek';
-
-    let receptObrazek = document.createElement('div');
-    receptObrazek.classList.add('recept-obrazek');
-    receptObrazek.appendChild(obrazek);
-
-    let recept = document.createElement('div');
-    recept.classList.add('recept');
-    recept.appendChild(receptObrazek);
-    recept.appendChild(receptInfo);
-
-    seznamReceptu.appendChild(recept);
-  }
-}
