@@ -24,43 +24,63 @@ zobrazSeznamReceptu();
 
 // zobrazeni seznamu receptu
 function zobrazSeznamReceptu() {
-    let seznamReceptu = document.getElementById('recepty');
+  let seznamReceptu = document.getElementById('recepty');
 
-    nalezeneRecepty.forEach((recept) => {
-        let receptElement = zobrazReceptMenu(recept);
-        seznamReceptu.appendChild(receptElement);
-    })
+  nalezeneRecepty.forEach((recept, index) => {
+    let receptElement = zobrazReceptMenu(recept, index);
+    seznamReceptu.appendChild(receptElement);
+  })
 
 }
 
 // zobrazeni detailu receptu
-function zobrazReceptDetail(recept) {
+function zobrazReceptDetail(index) {
+  let aktualniRecept = recepty[index];
+  let receptFoto = document.getElementById('recept-foto');
+  receptFoto.src = aktualniRecept.img;
+  receptFoto.alt = 'Foto receptu';
+
+  let receptKategorie = document.getElementById('recept-kategorie');
+  receptKategorie.textContent = aktualniRecept.kategorie;
+
+  let receptHodnoceni = document.getElementById('recept-hodnoceni');
+  receptHodnoceni.textContent = aktualniRecept.hodnoceni;
+
+  let receptNazev = document.getElementById('recept-nazev');
+  receptNazev.textContent = aktualniRecept.nadpis;
+
+  let receptPopis = document.getElementById('recept-popis');
+  receptPopis.textContent = aktualniRecept.popis;
+
 }
 
 // zobrazeni receptu
-function zobrazReceptMenu(recept) {
-    let info = document.createElement('h3');
-    info.innerHTML = recept.nadpis;
+function zobrazReceptMenu(recept, index) {
+  let info = document.createElement('h3');
+  info.innerHTML = recept.nadpis;
 
-    let receptInfo = document.createElement('div');
-    receptInfo.classList.add('recept-info');
-    receptInfo.appendChild(info);
+  let receptInfo = document.createElement('div');
+  receptInfo.classList.add('recept-info');
+  receptInfo.appendChild(info);
 
-    let obrazek = document.createElement('img');
-    obrazek.src = recept.img;
-    obrazek.alt = 'Obrazek';
+  let obrazek = document.createElement('img');
+  obrazek.src = recept.img;
+  obrazek.alt = 'Obrazek';
 
-    let receptObrazek = document.createElement('div');
-    receptObrazek.classList.add('recept-obrazek');
-    receptObrazek.appendChild(obrazek);
+  let receptObrazek = document.createElement('div');
+  receptObrazek.classList.add('recept-obrazek');
+  receptObrazek.appendChild(obrazek);
 
-    let receptElement = document.createElement('div');
-    receptElement.classList.add('recept');
-    receptElement.appendChild(receptObrazek);
-    receptElement.appendChild(receptInfo);
+  let receptElement = document.createElement('div');
+  receptElement.classList.add('recept');
+  receptElement.appendChild(receptObrazek);
+  receptElement.appendChild(receptInfo);
 
-    receptElement.addEventListener('click', zobrazReceptDetail(recept));
-    return receptElement;
+  receptElement.addEventListener('click', () => {
+    zobrazReceptDetail(index);
+  });
+
+  return receptElement;
 }
 
 
@@ -68,23 +88,6 @@ function zobrazReceptMenu(recept) {
 
 
 /* 
-let i = 0;
-
-zobrazRecepty();
-
-// zobrazeni seznamu receptu
-function zobrazRecepty() {
-  let seznam
-}
-
-
-
-recept.addEventListener('click', zobrazReceptDetail(recept))
-return recept
-}
-
-function obrazReceptDetail
-
 // hledani receptu
 let hledanyReceptIndex;
 
