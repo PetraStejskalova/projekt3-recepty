@@ -20,6 +20,12 @@ recept-hodnoceni, recept-nazev, recept-popis.
 
 let nalezeneRecepty = recepty;
 
+// zobrazeni posledniho prohlizeneho receptu pri nacteni
+let aktualniReceptStorage = localStorage.getItem('aktualniRecept');
+if (aktualniReceptStorage !== null) {
+  zobrazReceptDetail(Number(aktualniReceptStorage));
+}
+
 zobrazSeznamReceptu();
 
 // zobrazeni seznamu receptu
@@ -52,6 +58,7 @@ function zobrazReceptDetail(index) {
   let receptPopis = document.getElementById('recept-popis');
   receptPopis.textContent = aktualniRecept.popis;
 
+  localStorage.setItem('aktualniRecept', index);
 }
 
 // zobrazeni receptu
