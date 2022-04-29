@@ -26,13 +26,74 @@ if (aktualniReceptStorage !== null) {
   zobrazReceptDetail(Number(aktualniReceptStorage));
 }
 
-zobrazSeznamReceptu();
+zobrazSeznamReceptu(nalezeneRecepty);
+
+// filtr hledani
+let hledanyRecept = document.getElementById('hledat');
+hledanyRecept.addEventListener('keydown', () => {
+  najdiRecept(hledanyRecept.value);
+});
+
+function najdiRecept() {
+  let vyhledaneRecepty = recepty.filter(recept => recept.nadpis.toLowerCase().includes(hledanyRecept.value));
+
+  zobrazSeznamReceptu(vyhledaneRecepty);
+}
+
+// filtr kategorie
+let filtrovaniElement = document.getElementById('kategorie');
+filtrovaniElement.addEventListener('change', () => {
+  vyfiltrujRecepty();
+});
+
+function vyfiltrujRecepty() {
+  let vyfiltrovaneRecepty = recepty.filter(recept => recept.kategorie.includes(filtrovaniElement.value));
+
+  zobrazSeznamReceptu(vyfiltrovaneRecepty);
+}
+
+
+
+/* let receptyVybraneKategorie = document.getElementById('kategorie');
+
+receptyVybraneKategorie.addEventListener('change', () => {
+  console.log(vybranaKategorie);
+
+  vyfiltrujKategorii(vybranaKategorie);
+});
+
+function vyfiltrujKategorii() {
+  let vyfiltrovaneRecepty = recepty.filter(recept => recept.kategorie.toLowerCase().includes(vybranaKategorie));
+
+  console.log(vyfiltrovaneRecepty);
+  zobrazSeznamReceptu(vyfiltrovaneRecepty);
+}
+ */
+/* // filtrovani dle kategorie
+let kategorie = document.getElementById('kategorie');
+
+kategorie.addEventListener('change', (event) => {
+  let vybranaKategorie = event.target.value;
+  console.log(vybranaKategorie);
+  zobrazKategorii()
+});
+
+recepty.filter(zobrazKategorii);
+
+function zobrazKategorii() {
+  if (recepty.kategorie === 'Snídaně') {
+    return true;
+  } else {
+    return false;
+  }
+} */
 
 // zobrazeni seznamu receptu
-function zobrazSeznamReceptu() {
+function zobrazSeznamReceptu(recepty) {
   let seznamReceptu = document.getElementById('recepty');
+  seznamReceptu.innerHTML = '';
 
-  nalezeneRecepty.forEach((recept, index) => {
+  recepty.forEach((recept, index) => {
     let receptElement = zobrazReceptMenu(recept, index);
     seznamReceptu.appendChild(receptElement);
   })
@@ -114,24 +175,7 @@ document.querySelectorAll('input').forEach((element) => {
   element.addEventListener('keydown', hledejRecept);
 });
 
-// filtrovani dle kategorie
-let kategorie = document.getElementById('kategorie');
 
-kategorie.addEventListener('change', (event) => {
-  let vybranaKategorie = event.target.value;
-  console.log(vybranaKategorie);
-  zobrazKategorii()
-});
-
-recepty.filter(zobrazKategorii);
-
-function zobrazKategorii() {
-  if (recepty.kategorie === 'Snídaně') {
-    return true;
-  } else {
-    return false;
-  }
-}
 
 // razeni dle hodnoceni
 
