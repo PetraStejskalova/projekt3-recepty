@@ -1,5 +1,5 @@
 html {
-	box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 *,
@@ -113,7 +113,6 @@ h1 {
     cursor: pointer;
 }
 
-
 .hlavicka select {
     border: 1px solid #feada6;
     background-color: white;
@@ -123,14 +122,14 @@ h1 {
     outline: 0;
 }
 
-
-
 .recepty {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
     padding: 10px;
     background-color: #efefef;
     background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+    overflow-y: scroll;
+    max-height: 700px;
 }
 
 .recept {
@@ -189,9 +188,6 @@ h1 {
     transition: all 0.2s;
 }
 
-
-
-
 .recept-detail {
     background: white;
 }
@@ -221,10 +217,10 @@ h1 {
 }
 
 .recept-detail-info {
-   padding: 20px;
+    padding: 20px;
 }
 
-.recept-detail-info > header {
+.recept-detail-info>header {
     display: flex;
     justify-content: space-between;
     align-items: center;
