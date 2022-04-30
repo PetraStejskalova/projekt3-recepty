@@ -20,6 +20,12 @@ recept-hodnoceni, recept-nazev, recept-popis.
 
 let nalezeneRecepty = recepty;
 
+recepty.forEach(pridejPoradi);
+function pridejPoradi(recept, index) {
+  recept.poradi = index;
+  return recept;
+}
+
 // zobrazeni posledniho prohlizeneho receptu pri nacteni
 let aktualniReceptStorage = localStorage.getItem('aktualniRecept');
 if (aktualniReceptStorage !== null) {
@@ -52,41 +58,49 @@ function vyfiltrujRecepty() {
   zobrazSeznamReceptu(vyfiltrovaneRecepty);
 }
 
-
-
-/* let receptyVybraneKategorie = document.getElementById('kategorie');
-
-receptyVybraneKategorie.addEventListener('change', () => {
-  console.log(vybranaKategorie);
-
-  vyfiltrujKategorii(vybranaKategorie);
+// razeni dle hodnoceni
+let razeniElement = document.getElementById('razeni');
+razeniElement.addEventListener('change', () => {
+  seradRecepty();
 });
 
-function vyfiltrujKategorii() {
-  let vyfiltrovaneRecepty = recepty.filter(recept => recept.kategorie.toLowerCase().includes(vybranaKategorie));
+function seradRecepty() {
+  let razeniElement = document.getElementById('razeni');
 
-  console.log(vyfiltrovaneRecepty);
-  zobrazSeznamReceptu(vyfiltrovaneRecepty);
-}
- */
-/* // filtrovani dle kategorie
-let kategorie = document.getElementById('kategorie');
+  if (razeniElement.value == 1) {
 
-kategorie.addEventListener('change', (event) => {
-  let vybranaKategorie = event.target.value;
-  console.log(vybranaKategorie);
-  zobrazKategorii()
-});
+    let serazeneReceptyOdNejlepsiho = recepty.sort((a, b) => {
+      if (a.hodnoceni < b.hodnoceni) {
+        return 1;
+      } else {
+        return -1
+      }
+    })
+    zobrazSeznamReceptu(serazeneReceptyOdNejlepsiho);
 
-recepty.filter(zobrazKategorii);
+  } else if (razeniElement.value == 2) {
 
-function zobrazKategorii() {
-  if (recepty.kategorie === 'Snídaně') {
-    return true;
+    let serazeneReceptyOdNejhorsiho = recepty.sort((a, b) => {
+      if (a.hodnoceni > b.hodnoceni) {
+        return 1;
+      } else {
+        return -1
+      }
+    })
+    zobrazSeznamReceptu(serazeneReceptyOdNejhorsiho);
+
   } else {
-    return false;
-  }
-} */
+    let puvodniPoradi = recepty.sort((a, b) => {
+      if (a.poradi > b.poradi) {
+        return 1;
+      } else {
+        return -1
+      }
+    })
+    zobrazSeznamReceptu(puvodniPoradi);
+  };
+
+}
 
 // zobrazeni seznamu receptu
 function zobrazSeznamReceptu(recepty) {
@@ -97,7 +111,6 @@ function zobrazSeznamReceptu(recepty) {
     let receptElement = zobrazReceptMenu(recept, index);
     seznamReceptu.appendChild(receptElement);
   })
-
 }
 
 // zobrazeni detailu receptu
@@ -141,6 +154,7 @@ function zobrazReceptMenu(recept, index) {
 
   let receptElement = document.createElement('div');
   receptElement.classList.add('recept');
+  receptElement.dataset.poradi = index;
   receptElement.appendChild(receptObrazek);
   receptElement.appendChild(receptInfo);
 
@@ -150,44 +164,3 @@ function zobrazReceptMenu(recept, index) {
 
   return receptElement;
 }
-
-
-
-
-
-/* 
-// hledani receptu
-let hledanyReceptIndex;
-
-function hledejRecept() {
-  let hledani = document.querySelector('#hledat').value;
-  console.log(hledani);
-
-  for (let i = 0; i < recepty.length; i++) {
-    if (hledani === recepty[i].nadpis) {
-
-      zobrazRecept();
-    }
-  }
-}
-
-document.querySelectorAll('input').forEach((element) => {
-  element.addEventListener('keydown', hledejRecept);
-});
-
-
-
-// razeni dle hodnoceni
-
-recepty.hodnoceni.sort(porovnej);
-
-function porovnej(cis1, cis2) {
-  if (cis1 > cis2) {
-    return 1;
-  } else {
-    return -1;
-  }
-};
-
-console.log(recepty);
- */
