@@ -29,18 +29,19 @@ function pridejPoradi(recept, index) {
 // zobrazeni posledniho prohlizeneho receptu pri nacteni
 let aktualniReceptStorage = localStorage.getItem('aktualniRecept');
 if (aktualniReceptStorage !== null) {
-  zobrazReceptDetail(Number(aktualniReceptStorage));
+  zobrazReceptDetail(aktualniReceptStorage);
 }
 
 zobrazSeznamReceptu(nalezeneRecepty);
 
 // filtr hledani
 let hledanyRecept = document.getElementById('hledat');
-hledanyRecept.addEventListener('keydown', () => {
-  najdiRecept(hledanyRecept.value);
-});
+function hledejRecepty() {
+  najdiRecept();
+}
 
 function najdiRecept() {
+  let hledanyRecept = document.getElementById('hledat');
   let vyhledaneRecepty = recepty.filter(recept => recept.nadpis.toLowerCase().includes(hledanyRecept.value));
 
   zobrazSeznamReceptu(vyhledaneRecepty);
@@ -65,8 +66,6 @@ razeniElement.addEventListener('change', () => {
 });
 
 function seradRecepty() {
-  let razeniElement = document.getElementById('razeni');
-
   if (razeniElement.value == 1) {
 
     let serazeneReceptyOdNejlepsiho = recepty.sort((a, b) => {
@@ -99,7 +98,6 @@ function seradRecepty() {
     })
     zobrazSeznamReceptu(puvodniPoradi);
   };
-
 }
 
 // zobrazeni seznamu receptu
@@ -111,28 +109,6 @@ function zobrazSeznamReceptu(recepty) {
     let receptElement = zobrazReceptMenu(recept, index);
     seznamReceptu.appendChild(receptElement);
   })
-}
-
-// zobrazeni detailu receptu
-function zobrazReceptDetail(index) {
-  let aktualniRecept = recepty[index];
-  let receptFoto = document.getElementById('recept-foto');
-  receptFoto.src = aktualniRecept.img;
-  receptFoto.alt = 'Foto receptu';
-
-  let receptKategorie = document.getElementById('recept-kategorie');
-  receptKategorie.textContent = aktualniRecept.kategorie;
-
-  let receptHodnoceni = document.getElementById('recept-hodnoceni');
-  receptHodnoceni.textContent = aktualniRecept.hodnoceni;
-
-  let receptNazev = document.getElementById('recept-nazev');
-  receptNazev.textContent = aktualniRecept.nadpis;
-
-  let receptPopis = document.getElementById('recept-popis');
-  receptPopis.textContent = aktualniRecept.popis;
-
-  localStorage.setItem('aktualniRecept', index);
 }
 
 // zobrazeni receptu
@@ -154,13 +130,38 @@ function zobrazReceptMenu(recept, index) {
 
   let receptElement = document.createElement('div');
   receptElement.classList.add('recept');
-  receptElement.dataset.poradi = index;
   receptElement.appendChild(receptObrazek);
   receptElement.appendChild(receptInfo);
 
   receptElement.addEventListener('click', () => {
-    zobrazReceptDetail(index);
+    zobrazReceptDetail(recept.nadpis);
   });
 
   return receptElement;
+}
+
+// zobrazeni detailu receptu
+function zobrazReceptDetail(nadpis) {
+
+  let aktualniRecept = recepty.filter(recept => recept.nadpis === nadpis)[0];
+
+  if (aktualniRecept !== undefined) {
+    let receptFoto = document.getElementById('recept-foto');
+    receptFoto.src = aktualniRecept.img;
+    receptFoto.alt = 'Foto receptu';
+
+    let receptKategorie = document.getElementById('recept-kategorie');
+    receptKategorie.textContent = aktualniRecept.kategorie;
+
+    let receptHodnoceni = document.getElementById('recept-hodnoceni');
+    receptHodnoceni.textContent = aktualniRecept.hodnoceni;
+
+    let receptNazev = document.getElementById('recept-nazev');
+    receptNazev.textContent = aktualniRecept.nadpis;
+
+    let receptPopis = document.getElementById('recept-popis');
+    receptPopis.textContent = aktualniRecept.popis;
+
+    localStorage.setItem('aktualniRecept', nadpis);
+  }
 }
